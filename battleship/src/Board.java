@@ -4,11 +4,11 @@ import java.io.*;
 
 public abstract class Board 
 {
-    private ArrayList<ArrayList<CellStatus>> layout;
+    public ArrayList<ArrayList<CellStatus>> layout;
 
-    private Fleet fleet;
+    public Fleet fleet;
 
-    private static final int SIZE = 10;
+    public static final int SIZE = 10;
 
     public Board(String fileName)
     {
@@ -60,6 +60,7 @@ public abstract class Board
                                         i.set(j, CellStatus.DESTROYER);
                                     case "S":
                                         i.set(j, CellStatus.SUB);
+                                    default:
                                 }
                             }
                         }
@@ -103,6 +104,7 @@ public abstract class Board
                                 i.set(j, CellStatus.DESTROYER_HIT);
                             case SUB:
                                 i.set(j, CellStatus.SUB_HIT);
+                            default:
                         }
                         cell = i.get(j);
                     }
@@ -114,22 +116,60 @@ public abstract class Board
 
     public boolean moveAvailable(Move move)
     {
-
+        for(ArrayList<CellStatus> i : layout) // sets ship layout
+        {
+            if(move.row() == layout.indexOf(i))
+            {
+                for(int j = 0; j > SIZE; j++)
+                {
+                    if(move.col() == j)
+                    {
+                        CellStatus cell = i.get(j);
+                        switch(cell)
+                        {
+                            case AIRCRAFT_CARRIER_HIT:
+                                return false;
+                            case AIRCRAFT_CARRIER_SUNK:
+                                return false;
+                            case BATTLESHIP_HIT:
+                                return false;
+                            case BATTLESHIP_SUNK:
+                                return false;
+                            case CRUISER_HIT:
+                                return false;
+                            case CRUISER_SUNK:
+                                return false;
+                            case DESTROYER_HIT:
+                                return false;
+                            case DESTROYER_SUNK:
+                                return false;
+                            case SUB_HIT:
+                                return false;
+                            case SUB_SUNK:
+                                return false;
+                            default:
+                                return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public boolean gameOver()
     {
-
+        return fleet.gameOver();
     }
 
     public ArrayList<ArrayList<CellStatus>> getLayout()
     {
-
+        return layout;
     }
 
     public Fleet getFleet()
     {
-
+        return fleet;
     }
 
 }
