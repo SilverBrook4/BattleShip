@@ -85,6 +85,18 @@ public class ComputerBoard extends Board
 
     public String toString()
     {
+        String str = "";
+        for(ArrayList<CellStatus> i : layout)
+        {
+            for(int j = 0; j < SIZE; j++)
+            {
+                CellStatus cs = i.get(j);
+                String nStr = String.format("%s ", cs.toString().charAt(0));
+                str = str + nStr;
+            }
+            str = str + "\n";
+        }
         
+        return str;
     }
 }
