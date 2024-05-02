@@ -6,27 +6,27 @@ public class Fleet
     /**
      * This Ship represents a Battle Ship.
      */
-    private Ship battleShip;
+    public Ship battleShip;
 
     /**
      * This Ship represents an Aircraft Carrier.
      */
-    private Ship aircraftCarrier;
+    public Ship aircraftCarrier;
 
     /**
      * This Ship represents a Cruiser.
      */
-    private Ship cruiser;
+    public Ship cruiser;
 
     /**
      * This Ship represents a Sub.
      */
-    private Ship sub;
+    public Ship sub;
 
     /**
      * This Ship represents a Destroyer.
      */
-    private Ship destroyer;
+    public Ship destroyer;
 
     /**
      * Creates a Fleet object. A Fleet has a battleShip, airCraftCarrier, cruiser, sub

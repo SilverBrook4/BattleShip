@@ -81,32 +81,39 @@ public abstract class Board
     public CellStatus applyMoveToLayout(Move move)
     {
         CellStatus cell = CellStatus.NOTHING;
-        for(ArrayList<CellStatus> i : layout) // sets ship layout
+        for(int i = 0; i < SIZE; i++) // applies move to layout
         {
-            if(move.row() == layout.indexOf(i))
+            if(move.row() == i)
             {
-                for(int j = 0; j > SIZE; j++)
+                for(int j = 0; j < SIZE; j++)
                 {
                     if(move.col() == j)
                     {
-                        cell = i.get(j);
+                        cell = layout.get(i).get(j);
+
                         switch(cell)
                         {
                             case NOTHING:
-                                i.set(j, CellStatus.NOTHING_HIT);
+                                layout.get(i).set(j, CellStatus.NOTHING_HIT);
                             case AIRCRAFT_CARRIER:
-                                i.set(j, CellStatus.AIRCRAFT_CARRIER_HIT);
+                                layout.get(i).set(j, CellStatus.AIRCRAFT_CARRIER_HIT);
+                                fleet.updateFleet(ShipType.ST_AIRCRAFT_CARRIER);
                             case BATTLESHIP:
-                                i.set(j, CellStatus.BATTLESHIP_HIT);
+                                layout.get(i).set(j, CellStatus.BATTLESHIP_HIT);
+                                fleet.updateFleet(ShipType.ST_BATTLESHIP);
                             case CRUISER:
-                                i.set(j, CellStatus.CRUISER_HIT);
+                                layout.get(i).set(j, CellStatus.CRUISER_HIT);
+                                fleet.updateFleet(ShipType.ST_CRUISER);
                             case DESTROYER:
-                                i.set(j, CellStatus.DESTROYER_HIT);
+                                layout.get(i).set(j, CellStatus.DESTROYER_HIT);
+                                fleet.updateFleet(ShipType.ST_DESTROYER);
                             case SUB:
-                                i.set(j, CellStatus.SUB_HIT);
+                                layout.get(i).set(j, CellStatus.SUB_HIT);
+                                fleet.updateFleet(ShipType.ST_SUB);
                             default:
+                                layout.get(i).set(j, CellStatus.NOTHING_HIT);
                         }
-                        cell = i.get(j);
+                        cell = layout.get(i).get(j);
                     }
                 }
             }
@@ -116,45 +123,50 @@ public abstract class Board
 
     public boolean moveAvailable(Move move)
     {
-        for(ArrayList<CellStatus> i : layout) // sets ship layout
+        boolean status = false;
+        for(int i = 0; i < SIZE; i++) // checks cell status of cells
         {
-            if(move.row() == layout.indexOf(i))
+           
+            if(move.row() == i)
             {
-                for(int j = 0; j > SIZE; j++)
+                for(int j = 0; j < SIZE; j++)
                 {
                     if(move.col() == j)
                     {
-                        CellStatus cell = i.get(j);
+                        CellStatus cell = layout.get(i).get(j);
+                        System.out.println(cell);
                         switch(cell)
                         {
+                            case NOTHING_HIT:
+                                status = false;
                             case AIRCRAFT_CARRIER_HIT:
-                                return false;
+                                status = false;
                             case AIRCRAFT_CARRIER_SUNK:
-                                return false;
+                                status = false;
                             case BATTLESHIP_HIT:
-                                return false;
+                                status = false;
                             case BATTLESHIP_SUNK:
-                                return false;
+                                status = false;
                             case CRUISER_HIT:
-                                return false;
+                                status = false;
                             case CRUISER_SUNK:
                                 return false;
                             case DESTROYER_HIT:
-                                return false;
+                                status = false;
                             case DESTROYER_SUNK:
-                                return false;
+                                status = false;
                             case SUB_HIT:
-                                return false;
+                                status = false;
                             case SUB_SUNK:
-                                return false;
+                                status = false;
                             default:
-                                return true;
+                                status = true;
                         }
                     }
                 }
             }
         }
-        return false;
+        return status;
     }
 
     public boolean gameOver()

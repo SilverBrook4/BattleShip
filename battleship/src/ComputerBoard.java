@@ -9,64 +9,47 @@ public class ComputerBoard extends Board
 
     public String makePlayerMove(Move move)
     {
-        boolean sunk = false;
-        CellStatus type = null;
-        for(ArrayList<CellStatus> i : layout) // sets ship layout
+        CellStatus cell = applyMoveToLayout(move);
+
+        boolean sunk;
+        switch(cell)
         {
-            if(move.row() == layout.indexOf(i))
-            {
-                for(int j = 0; j > SIZE; j++)
-                {
-                    if(move.col() == j)
-                    {
-                        CellStatus cell = i.get(j);
-                        switch(cell)
-                        {
-                            case AIRCRAFT_CARRIER:
-                                sunk = fleet.updateFleet(ShipType.ST_AIRCRAFT_CARRIER);
-                                type = CellStatus.AIRCRAFT_CARRIER;
-                            case BATTLESHIP:
-                                sunk = fleet.updateFleet(ShipType.ST_BATTLESHIP);
-                                type = CellStatus.BATTLESHIP;
-                            case CRUISER:
-                                sunk = fleet.updateFleet(ShipType.ST_CRUISER);
-                                type = CellStatus.CRUISER;
-                            case DESTROYER:
-                                sunk = fleet.updateFleet(ShipType.ST_DESTROYER);
-                                type = CellStatus.DESTROYER;
-                            case SUB:
-                                sunk = fleet.updateFleet(ShipType.ST_SUB);
-                                type = CellStatus.SUB;
-                            default:
-                                sunk = false;
-                        }
-                    }
-                }
-            }
+            case AIRCRAFT_CARRIER_HIT:
+                sunk = fleet.aircraftCarrier.getSunk();
+            case BATTLESHIP_HIT:
+                sunk = fleet.battleShip.getSunk();
+            case CRUISER_HIT:
+                sunk = fleet.cruiser.getSunk();
+            case DESTROYER_HIT:
+                sunk = fleet.destroyer.getSunk();
+            case SUB_HIT:
+                sunk = fleet.sub.getSunk();
+            default:
+                sunk = false;
         }
 
         if(sunk == true)
         {
-            for(ArrayList<CellStatus> i : layout) // sets ship layout
+            for(int i = 0; i < SIZE; i++) // updates ship layout fro sunk ships
             {
-                if(i.contains(type) == true)
+                if(layout.get(i).contains(cell))
                 {
-                    for(int j = 0; j > SIZE; j++)
+                    for(int j = 0; j < SIZE; j++)
                     {
-                        if(i.get(j) == type)
+                        if(layout.get(i).get(j) == cell)
                         {
-                            switch(type)
+                            switch(cell)
                             {
                                 case AIRCRAFT_CARRIER_HIT:
-                                    i.set(j, CellStatus.AIRCRAFT_CARRIER_SUNK);
+                                    layout.get(i).set(j, CellStatus.AIRCRAFT_CARRIER_SUNK);
                                 case BATTLESHIP_HIT:
-                                    i.set(j, CellStatus.BATTLESHIP_SUNK);
+                                    layout.get(i).set(j, CellStatus.BATTLESHIP_SUNK);
                                 case CRUISER_HIT:
-                                    i.set(j, CellStatus.CRUISER_SUNK);
+                                    layout.get(i).set(j, CellStatus.CRUISER_SUNK);
                                 case DESTROYER_HIT:
-                                    i.set(j, CellStatus.DESTROYER_SUNK);
+                                    layout.get(i).set(j, CellStatus.DESTROYER_SUNK);
                                 case SUB_HIT:
-                                    i.set(j, CellStatus.SUB_SUNK);
+                                    layout.get(i).set(j, CellStatus.SUB_SUNK);
                                 default:
                                     sunk = false;
                             }
@@ -83,14 +66,31 @@ public class ComputerBoard extends Board
         }
     }
 
+    @Override
     public String toString()
     {
-        String str = "";
-        for(ArrayList<CellStatus> i : layout)
+        ArrayList<String> collumLet = new ArrayList<String>(){
+            {
+                add("A ");
+                add("B ");
+                add("C ");
+                add("D ");
+                add("E ");
+                add("F ");
+                add("G ");
+                add("H ");
+                add("I ");
+                add("J ");
+            }
+        };
+
+        String str = "  1 2 3 4 5 6 7 8 9 10 \n";
+        for(int i = 0; i < SIZE; i++)
         {
+            str = str + collumLet.get((i));
             for(int j = 0; j < SIZE; j++)
             {
-                CellStatus cs = i.get(j);
+                CellStatus cs = layout.get(i).get(j);
                 String nStr = String.format("%s ", cs.toString().charAt(0));
                 str = str + nStr;
             }

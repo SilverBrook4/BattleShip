@@ -29,13 +29,14 @@ public class Move
             }
         };
     
+        String[] tokens = s.split("", 2);
         char rowC = s.charAt(0);
-        col = s.charAt(1) - 48;
+        String  colC = tokens[1];
+        col = Integer.parseInt(colC);
 
         for(String i : collumCompare)
         {
-            char e = i.charAt(0);
-            if (rowC == e)
+            if (rowC == i.charAt(0))
             {
                 row = collumCompare.indexOf(i);
             }
@@ -49,7 +50,7 @@ public class Move
 
     public int col()
     {
-        return col;
+        return col - 1;
     }
 
     public String toString()
