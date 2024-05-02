@@ -40,89 +40,33 @@ public abstract class Board
                 Move start = new Move(startStr);
                 Move end = new Move(endStr);
 
-                switch(type)
+                for(ArrayList<CellStatus> i : layout) // sets ship layout
                 {
-                    case "A": // Aircraft Carrier
-                        for(ArrayList<CellStatus> i : layout)
+                    if((layout.indexOf(i) >= start.row()) && (layout.indexOf(i) <= end.row()))
+                    {
+                        for(int j = 0; j > SIZE; j++)
                         {
-                            if((layout.indexOf(i) >= start.row()) && (layout.indexOf(i) <= end.row()))
+                            if((j >= start.col()) && (j <= end.col()))
                             {
-                                for(int j = 0; j > SIZE; j++)
+                                switch(type)
                                 {
-                                    if((j >= start.col()) && (j <= end.col()))
-                                    {
+                                    case "A":
                                         i.set(j, CellStatus.AIRCRAFT_CARRIER);
-                                    }
-
-                                }
-                            }
-                        }
-
-                    case "B": // Battle Ship
-                        for(ArrayList<CellStatus> i : layout)
-                        {
-                            if((layout.indexOf(i) >= start.row()) && (layout.indexOf(i) <= end.row()))
-                            {
-                                for(int j = 0; j > SIZE; j++)
-                                {
-                                    if((j >= start.col()) && (j <= end.col()))
-                                    {
+                                    case "B":
                                         i.set(j, CellStatus.BATTLESHIP);
-                                    }
-
-                                }
-                            }
-                        }
-                    case "C": // Cruiser
-                        for(ArrayList<CellStatus> i : layout)
-                        {
-                            if((layout.indexOf(i) >= start.row()) && (layout.indexOf(i) <= end.row()))
-                            {
-                                for(int j = 0; j > SIZE; j++)
-                                {
-                                    if((j >= start.col()) && (j <= end.col()))
-                                    {
+                                    case "C":
                                         i.set(j, CellStatus.CRUISER);
-                                    }
-
-                                }
-                            }
-                        }
-                    case "D": // Destroyer
-                        for(ArrayList<CellStatus> i : layout)
-                        {
-                            if((layout.indexOf(i) >= start.row()) && (layout.indexOf(i) <= end.row()))
-                            {
-                                for(int j = 0; j > SIZE; j++)
-                                {
-                                    if((j >= start.col()) && (j <= end.col()))
-                                    {
+                                    case "D":
                                         i.set(j, CellStatus.DESTROYER);
-                                    }
-
-                                }
-                            }
-                        }
-                    case "S": // Sub
-                        for(ArrayList<CellStatus> i : layout)
-                        {
-                            if((layout.indexOf(i) >= start.row()) && (layout.indexOf(i) <= end.row()))
-                            {
-                                for(int j = 0; j > SIZE; j++)
-                                {
-                                    if((j >= start.col()) && (j <= end.col()))
-                                    {
+                                    case "S":
                                         i.set(j, CellStatus.SUB);
-                                    }
-
                                 }
                             }
                         }
-                    default:
-                        System.out.println("Invalid Ship Type");
-              }
-
+                    }
+                }
             }
+            inputFile.close();
         }
         catch(IOException e)
         { // Throws if file is not found
@@ -135,7 +79,37 @@ public abstract class Board
 
     public CellStatus applyMoveToLayout(Move move)
     {
-
+        CellStatus cell = CellStatus.NOTHING;
+        for(ArrayList<CellStatus> i : layout) // sets ship layout
+        {
+            if(move.row() == layout.indexOf(i))
+            {
+                for(int j = 0; j > SIZE; j++)
+                {
+                    if(move.col() == j)
+                    {
+                        cell = i.get(j);
+                        switch(cell)
+                        {
+                            case NOTHING:
+                                i.set(j, CellStatus.NOTHING_HIT);
+                            case AIRCRAFT_CARRIER:
+                                i.set(j, CellStatus.AIRCRAFT_CARRIER_HIT);
+                            case BATTLESHIP:
+                                i.set(j, CellStatus.BATTLESHIP_HIT);
+                            case CRUISER:
+                                i.set(j, CellStatus.CRUISER_HIT);
+                            case DESTROYER:
+                                i.set(j, CellStatus.DESTROYER_HIT);
+                            case SUB:
+                                i.set(j, CellStatus.SUB_HIT);
+                        }
+                        cell = i.get(j);
+                    }
+                }
+            }
+        }
+        return cell;
     }
 
     public boolean moveAvailable(Move move)
