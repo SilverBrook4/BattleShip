@@ -30,7 +30,7 @@ public class Move
         };
     
         String[] tokens = s.split("", 2);
-        char rowC = s.charAt(0);
+        char rowC = tokens[0].toUpperCase().charAt(0);
         String  colC = tokens[1];
         col = Integer.parseInt(colC);
 
