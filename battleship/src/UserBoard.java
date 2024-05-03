@@ -63,26 +63,26 @@ public class UserBoard extends Board
 
         if(sunk == true)
         {
-            for(ArrayList<CellStatus> i : layout) // sets ship layout
+            for(int i = 0; i < SIZE; i++) // sets ship layout
             {
-                if(i.contains(cell) == true)
+                if(layout.get(i).contains(cell) == true)
                 {
                     for(int j = 0; j > SIZE; j++)
                     {
-                        if(i.get(j) == cell)
+                        if(layout.get(i).get(j) == cell)
                         {
                             switch(cell)
                             {
                                 case AIRCRAFT_CARRIER_HIT:
-                                    i.set(j, CellStatus.AIRCRAFT_CARRIER_SUNK);
+                                    layout.get(i).set(j, CellStatus.AIRCRAFT_CARRIER_SUNK);
                                 case BATTLESHIP_HIT:
-                                    i.set(j, CellStatus.BATTLESHIP_SUNK);
+                                    layout.get(i).set(j, CellStatus.BATTLESHIP_SUNK);
                                 case CRUISER_HIT:
-                                    i.set(j, CellStatus.CRUISER_SUNK);
+                                    layout.get(i).set(j, CellStatus.CRUISER_SUNK);
                                 case DESTROYER_HIT:
-                                    i.set(j, CellStatus.DESTROYER_SUNK);
+                                    layout.get(i).set(j, CellStatus.DESTROYER_SUNK);
                                 case SUB_HIT:
-                                    i.set(j, CellStatus.SUB_SUNK);
+                                    layout.get(i).set(j, CellStatus.SUB_SUNK);
                                 default:
                                     sunk = false;
                             }

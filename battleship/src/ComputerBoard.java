@@ -11,18 +11,19 @@ public class ComputerBoard extends Board
     {
         CellStatus cell = applyMoveToLayout(move);
 
+        System.out.println(cell);
         boolean sunk;
         switch(cell)
         {
-            case AIRCRAFT_CARRIER_HIT:
+            case AIRCRAFT_CARRIER:
                 sunk = fleet.aircraftCarrier.getSunk();
-            case BATTLESHIP_HIT:
+            case BATTLESHIP:
                 sunk = fleet.battleShip.getSunk();
-            case CRUISER_HIT:
+            case CRUISER:
                 sunk = fleet.cruiser.getSunk();
-            case DESTROYER_HIT:
+            case DESTROYER:
                 sunk = fleet.destroyer.getSunk();
-            case SUB_HIT:
+            case SUB:
                 sunk = fleet.sub.getSunk();
             default:
                 sunk = false;

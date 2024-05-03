@@ -21,11 +21,12 @@ public class Driver
 
         System.out.print(game);
 
-        while((game.computerDefeated() == false) && (game.userDefeated() == false))
+        Scanner keyboard = new Scanner(System.in);
+
+        do 
         {
             if(whosMove == true) // players turn
             {
-                Scanner keyboard = new Scanner(System.in);
                 System.out.print("Move: ");
                 String moveStr = keyboard.next();
                 String moveData= game.makePlayerMove(moveStr);
@@ -55,8 +56,8 @@ public class Driver
                 whosMove = true;
             }
             System.out.print(game);
-        }
-
+        }while((game.computerDefeated() == false) && (game.userDefeated() == false));
+        keyboard.close();
     }
 
 }

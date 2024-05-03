@@ -40,27 +40,33 @@ public abstract class Board
                 Move start = new Move(startStr);
                 Move end = new Move(endStr);
 
-                for(ArrayList<CellStatus> i : layout) // sets ship layout
+                for(int i = 0; i < SIZE; i++) // sets ship layout
                 {
-                    if((layout.indexOf(i) >= start.row()) && (layout.indexOf(i) <= end.row()))
+                    if((i >= start.row()) && (i <= end.row()))
                     {
-                        for(int j = 0; j > SIZE; j++)
+                        for(int j = 0; j < SIZE; j++)
                         {
                             if((j >= start.col()) && (j <= end.col()))
                             {
                                 switch(type)
                                 {
                                     case "A":
-                                        i.set(j, CellStatus.AIRCRAFT_CARRIER);
+                                        layout.get(i).set(j, CellStatus.AIRCRAFT_CARRIER);
+                                        break;
                                     case "B":
-                                        i.set(j, CellStatus.BATTLESHIP);
+                                        layout.get(i).set(j, CellStatus.BATTLESHIP);
+                                        break;
                                     case "C":
-                                        i.set(j, CellStatus.CRUISER);
+                                        layout.get(i).set(j, CellStatus.CRUISER);
+                                        break;
                                     case "D":
-                                        i.set(j, CellStatus.DESTROYER);
+                                        layout.get(i).set(j, CellStatus.DESTROYER);
+                                        break;
                                     case "S":
-                                        i.set(j, CellStatus.SUB);
+                                        layout.get(i).set(j, CellStatus.SUB);
+                                        break;
                                     default:
+                                        break;
                                 }
                             }
                         }
@@ -81,6 +87,7 @@ public abstract class Board
     public CellStatus applyMoveToLayout(Move move)
     {
         CellStatus cell = CellStatus.NOTHING;
+        CellStatus value = CellStatus.NOTHING;
         for(int i = 0; i < SIZE; i++) // applies move to layout
         {
             if(move.row() == i)
@@ -95,30 +102,43 @@ public abstract class Board
                         {
                             case NOTHING:
                                 layout.get(i).set(j, CellStatus.NOTHING_HIT);
+                                value = CellStatus.NOTHING;
+                                break;
                             case AIRCRAFT_CARRIER:
                                 layout.get(i).set(j, CellStatus.AIRCRAFT_CARRIER_HIT);
                                 fleet.updateFleet(ShipType.ST_AIRCRAFT_CARRIER);
+                                value = CellStatus.AIRCRAFT_CARRIER;
+                                break;
                             case BATTLESHIP:
                                 layout.get(i).set(j, CellStatus.BATTLESHIP_HIT);
                                 fleet.updateFleet(ShipType.ST_BATTLESHIP);
+                                value = CellStatus.BATTLESHIP;
+                                break;
                             case CRUISER:
                                 layout.get(i).set(j, CellStatus.CRUISER_HIT);
                                 fleet.updateFleet(ShipType.ST_CRUISER);
+                                value = CellStatus.CRUISER;
+                                break;
                             case DESTROYER:
                                 layout.get(i).set(j, CellStatus.DESTROYER_HIT);
                                 fleet.updateFleet(ShipType.ST_DESTROYER);
+                                value = CellStatus.DESTROYER;
+                                break;
                             case SUB:
                                 layout.get(i).set(j, CellStatus.SUB_HIT);
                                 fleet.updateFleet(ShipType.ST_SUB);
+                                value = CellStatus.SUB;
+                                break;
                             default:
                                 layout.get(i).set(j, CellStatus.NOTHING_HIT);
+                                break;
                         }
                         cell = layout.get(i).get(j);
                     }
                 }
             }
         }
-        return cell;
+        return value;
     }
 
     public boolean moveAvailable(Move move)
@@ -126,7 +146,6 @@ public abstract class Board
         boolean status = false;
         for(int i = 0; i < SIZE; i++) // checks cell status of cells
         {
-           
             if(move.row() == i)
             {
                 for(int j = 0; j < SIZE; j++)
@@ -139,28 +158,40 @@ public abstract class Board
                         {
                             case NOTHING_HIT:
                                 status = false;
+                                break;
                             case AIRCRAFT_CARRIER_HIT:
                                 status = false;
+                                break;
                             case AIRCRAFT_CARRIER_SUNK:
                                 status = false;
+                                break;
                             case BATTLESHIP_HIT:
                                 status = false;
+                                break;
                             case BATTLESHIP_SUNK:
                                 status = false;
+                                break;
                             case CRUISER_HIT:
                                 status = false;
+                                break;
                             case CRUISER_SUNK:
-                                return false;
+                                status = false;
+                                break;
                             case DESTROYER_HIT:
                                 status = false;
+                                break;
                             case DESTROYER_SUNK:
                                 status = false;
+                                break;
                             case SUB_HIT:
                                 status = false;
+                                break;
                             case SUB_SUNK:
                                 status = false;
+                                break;
                             default:
                                 status = true;
+                                break;
                         }
                     }
                 }
