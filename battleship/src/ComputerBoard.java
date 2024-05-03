@@ -11,27 +11,32 @@ public class ComputerBoard extends Board
     {
         CellStatus cell = applyMoveToLayout(move);
 
-        System.out.println(cell);
         boolean sunk;
         switch(cell)
         {
             case AIRCRAFT_CARRIER:
                 sunk = fleet.aircraftCarrier.getSunk();
+                break;
             case BATTLESHIP:
                 sunk = fleet.battleShip.getSunk();
+                break;
             case CRUISER:
                 sunk = fleet.cruiser.getSunk();
+                break;
             case DESTROYER:
                 sunk = fleet.destroyer.getSunk();
+                break;
             case SUB:
                 sunk = fleet.sub.getSunk();
+                break;
             default:
                 sunk = false;
+                break;
         }
 
         if(sunk == true)
         {
-            for(int i = 0; i < SIZE; i++) // updates ship layout fro sunk ships
+            for(int i = 0; i < SIZE; i++) // updates ship layout for sunk ships
             {
                 if(layout.get(i).contains(cell))
                 {
@@ -43,16 +48,22 @@ public class ComputerBoard extends Board
                             {
                                 case AIRCRAFT_CARRIER_HIT:
                                     layout.get(i).set(j, CellStatus.AIRCRAFT_CARRIER_SUNK);
+                                    break;
                                 case BATTLESHIP_HIT:
                                     layout.get(i).set(j, CellStatus.BATTLESHIP_SUNK);
+                                    break;
                                 case CRUISER_HIT:
                                     layout.get(i).set(j, CellStatus.CRUISER_SUNK);
+                                    break;
                                 case DESTROYER_HIT:
                                     layout.get(i).set(j, CellStatus.DESTROYER_SUNK);
+                                    break;
                                 case SUB_HIT:
                                     layout.get(i).set(j, CellStatus.SUB_SUNK);
+                                    break;
                                 default:
                                     sunk = false;
+                                    break;
                             }
                         }
                     }

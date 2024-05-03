@@ -5,6 +5,8 @@ public class Driver
 {
     public static void main(String[] args)
     {
+        System.out.println("Welcome to Battle Ship!!!");
+
         Game game = new Game();
 
         Random coin = new Random();
@@ -13,10 +15,12 @@ public class Driver
         if (coin.nextInt(2) == 1)
         {
             whosMove = true; // player move
+            System.out.println("Coin Toss Won: you go first!");
         }
         else
         {
             whosMove = false; // computer move
+            System.out.println("Coin Toss Lost: computer goes first :(");
         }
 
         System.out.print(game);
@@ -27,21 +31,35 @@ public class Driver
         {
             if(whosMove == true) // players turn
             {
-                System.out.print("Move: ");
-                String moveStr = keyboard.next();
-                String moveData= game.makePlayerMove(moveStr);
-                if(moveData != null)
+                System.out.println("Your Turn");
+                boolean validMove = false;
+                while(validMove == false)
                 {
-                    System.out.println(moveData);
+                    try
+                    {
+                        System.out.print("Move: ");
+                        String moveStr = keyboard.next();
+                        String moveData= game.makePlayerMove(moveStr);
+                        if(moveData == null)
+                        {
+                            System.out.println("no ships sank");
+                        }
+                        else
+                        {
+                            System.out.println(moveData);
+                        }
+                        whosMove = false;
+                        validMove = true;
+                    }
+                    catch(NumberFormatException e)
+                    {
+                        System.out.println("ERROR: move invalid");
+                    }
                 }
-                else
-                {
-                    System.out.println("nothing hit");
-                }
-                whosMove = false;
             }
             else if(whosMove == false) // computers turn
             {
+                System.out.println("Computer Turn");
                 String[] moveData = game.makeComputerMove();
                 if(moveData[1] == null)
                 {
@@ -57,6 +75,16 @@ public class Driver
             }
             System.out.print(game);
         }while((game.computerDefeated() == false) && (game.userDefeated() == false));
+
+        if(game.computerDefeated() == true)
+        {
+            System.out.println("You Win!");
+        }
+        else if(game.userDefeated() == true)
+        {
+            System.out.println("Computer Wins :(");
+        }
+        
         keyboard.close();
     }
 

@@ -34,11 +34,11 @@ public class Move
         String  colC = tokens[1];
         col = Integer.parseInt(colC);
 
-        for(String i : collumCompare)
+        for(int i = 0; i < 10; i++)
         {
-            if (rowC == i.charAt(0))
+            if (rowC == collumCompare.get(i).charAt(0))
             {
-                row = collumCompare.indexOf(i);
+            row = i;
             }
         }
     }

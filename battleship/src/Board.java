@@ -130,10 +130,9 @@ public abstract class Board
                                 value = CellStatus.SUB;
                                 break;
                             default:
-                                layout.get(i).set(j, CellStatus.NOTHING_HIT);
+                                System.out.println("Already Bombed: move forfieted");
                                 break;
                         }
-                        cell = layout.get(i).get(j);
                     }
                 }
             }

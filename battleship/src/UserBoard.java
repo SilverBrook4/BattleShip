@@ -49,16 +49,22 @@ public class UserBoard extends Board
         {
             case AIRCRAFT_CARRIER_HIT:
                 sunk = fleet.aircraftCarrier.getSunk();
+                break;
             case BATTLESHIP_HIT:
                 sunk = fleet.battleShip.getSunk();
+                break;
             case CRUISER_HIT:
                 sunk = fleet.cruiser.getSunk();
+                break;
             case DESTROYER_HIT:
                 sunk = fleet.destroyer.getSunk();
+                break;
             case SUB_HIT:
                 sunk = fleet.sub.getSunk();
+                break;
             default:
                 sunk = false;
+                break;
         }
 
         if(sunk == true)
@@ -75,16 +81,22 @@ public class UserBoard extends Board
                             {
                                 case AIRCRAFT_CARRIER_HIT:
                                     layout.get(i).set(j, CellStatus.AIRCRAFT_CARRIER_SUNK);
+                                    break;
                                 case BATTLESHIP_HIT:
                                     layout.get(i).set(j, CellStatus.BATTLESHIP_SUNK);
+                                    break;
                                 case CRUISER_HIT:
                                     layout.get(i).set(j, CellStatus.CRUISER_SUNK);
+                                    break;
                                 case DESTROYER_HIT:
                                     layout.get(i).set(j, CellStatus.DESTROYER_SUNK);
+                                    break;
                                 case SUB_HIT:
                                     layout.get(i).set(j, CellStatus.SUB_SUNK);
+                                    break;
                                 default:
                                     sunk = false;
+                                    break;
                             }
                         }
                     }
