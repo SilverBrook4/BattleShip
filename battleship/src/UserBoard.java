@@ -1,18 +1,32 @@
+/**
+ * This is a subclass of the Board class that represents the user's board in the game.
+ */
 import java.util.Random;
 import java.util.ArrayList;
 
 public class UserBoard extends Board
 {
+    /**
+     * This is a list of moves that the computer can make.
+     */
     private ArrayList<Move> moves;
 
+    /**
+     * This is a random number generator.
+     */
     private Random rand;
 
+    /**
+     * Constructor for the UserBoard class. It calls the constructor of the superclass, 
+     * Board, and passes the fileName parameter to it.
+     * @param fileName
+     */
     public UserBoard(String fileName)
     {
-        super(fileName);
+        super(fileName); 
         rand = new Random();
 
-        moves = new ArrayList<Move>(100);
+        moves = new ArrayList<Move>(100); // creates list of moves
         for(int i = 0; i < SIZE; i++)
         {
             for(int j = 0; j < SIZE; j++)
@@ -23,17 +37,24 @@ public class UserBoard extends Board
         }
     }
 
+    /**
+     * This method is used to make a move for the user player. 
+     * It applies the move to the board layout and returns a message to be displayed to the player.
+     * @return String: the message to be displayed to the player, String: move location
+     */
     public String[] makeComputerMove()
     {
         boolean moveAvailable = false;
         Move move = null;
         CellStatus cell = null;
+
+        // randomly selects a move from the list of available moves
         while(moveAvailable == false)
         {
             move = pickRandomMove();
             for(Move i : moves)
             {
-                if((i.row() == move.row()) && (i.col() == move.col()))
+                if((i.row() == move.row()) && (i.col() == move.col())) 
                 {
                     moves.remove(moves.indexOf(i));
                     cell = applyMoveToLayout(move);
@@ -44,6 +65,7 @@ public class UserBoard extends Board
             
         }
 
+        // checks if ship is sunk
         boolean sunk;
         switch(cell)
         {
@@ -67,9 +89,10 @@ public class UserBoard extends Board
                 break;
         }
 
+        // updates ship layout for sunk ships
         if(sunk == true)
         {
-            for(int i = 0; i < SIZE; i++) // sets ship layout
+            for(int i = 0; i < SIZE; i++)
             {
                 if(layout.get(i).contains(cell) == true)
                 {
@@ -114,6 +137,10 @@ public class UserBoard extends Board
         
     }
 
+    /**
+     * This method is used to pick a random move from the list of available moves.
+     * @return Move: a random move from the list of available moves
+     */
     public Move pickRandomMove()
     {
         int row = rand.nextInt(0, SIZE);
@@ -122,6 +149,10 @@ public class UserBoard extends Board
         return move;
     }
 
+    /**
+     * This method returns a string representation of the user's board.
+     * @return String: the string representation of the user's board
+     */
     @Override
     public String toString()
     {
@@ -141,7 +172,7 @@ public class UserBoard extends Board
         };
 
         String str = "  1 2 3 4 5 6 7 8 9 10 \n";
-        for(int i = 0; i < SIZE; i++)
+        for(int i = 0; i < SIZE; i++) // creates string representation of board
         {
             str = str + collumLet.get((i));
             for(int j = 0; j < SIZE; j++)

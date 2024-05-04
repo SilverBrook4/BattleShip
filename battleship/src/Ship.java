@@ -4,9 +4,19 @@
  */
 public abstract class Ship 
 {
-
+    /**
+     * The size of the ship.
+     */
     private int size;
+
+    /**
+     * True if the ship has been sunk, false if it has not.
+     */
     private boolean sunk;
+
+    /**
+     * The number of hits the ship has taken.
+     */
     private int hits;
 
     /**

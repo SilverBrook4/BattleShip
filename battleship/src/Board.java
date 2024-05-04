@@ -1,15 +1,31 @@
+/**
+ * This class represents a board in the game.
+ */
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
 public abstract class Board 
 {
+    /**
+     * The layout of the board.
+     */
     public ArrayList<ArrayList<CellStatus>> layout;
 
+    /**
+     * The fleet of the board.
+     */
     public Fleet fleet;
 
+    /**
+     * The size of the board.
+     */
     public static final int SIZE = 10;
 
+    /**
+     * Constructs a board with a given file name.
+     * @param fileName String: the name of the file
+     */
     public Board(String fileName)
     {
         // initializes board & sets cells to NOTHING
@@ -23,11 +39,13 @@ public abstract class Board
             }
         }
 
+        // initializes fleet
         fleet = new Fleet();
 
+        // reads file and sets ship layout
         try 
         { 
-            File setupFile = new File(fileName);
+            File setupFile = new File(fileName); // reads file
             Scanner inputFile = new Scanner(setupFile);
             while(inputFile.hasNext() == true)
             {
@@ -37,7 +55,7 @@ public abstract class Board
                 String startStr = tokens[1];
                 String endStr = tokens[2];
 
-                Move start = new Move(startStr);
+                Move start = new Move(startStr); // creates move objects
                 Move end = new Move(endStr);
 
                 for(int i = 0; i < SIZE; i++) // sets ship layout
@@ -84,6 +102,11 @@ public abstract class Board
 
     }
 
+    /**
+     * Applies a move to the layout.
+     * @param move Move: the move to apply
+     * @return CellStatus: the status of the cell
+     */
     public CellStatus applyMoveToLayout(Move move)
     {
         CellStatus cell = CellStatus.NOTHING;
@@ -140,6 +163,11 @@ public abstract class Board
         return value;
     }
 
+    /**
+     * Checks if a move is available.
+     * @param move Move: the move to check
+     * @return boolean: true if move is available, false otherwise
+     */
     public boolean moveAvailable(Move move)
     {
         boolean status = false;
@@ -199,16 +227,28 @@ public abstract class Board
         return status;
     }
 
+    /**
+     * Checks if the game is over.
+     * @return boolean: true if game is over, false otherwise
+     */
     public boolean gameOver()
     {
         return fleet.gameOver();
     }
 
+    /**
+     * Gets the layout of the board.
+     * @return ArrayList<ArrayList<CellStatus>>: the layout of the board
+     */
     public ArrayList<ArrayList<CellStatus>> getLayout()
     {
         return layout;
     }
 
+    /**
+     * Gets the fleet of the board.
+     * @return Fleet: the fleet of the board
+     */
     public Fleet getFleet()
     {
         return fleet;
